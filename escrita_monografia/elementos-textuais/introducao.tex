@@ -1,0 +1,31 @@
+\chapter{Introdução}
+
+
+\begin{citacao}
+Para a civilização ocidental o conceito de evolução humana está diretamente associado ao grau de desenvolvimento tecnológico adquirido ao longo do tempo [...]. Portanto, a motivação de se criar máquinas que possam substituir o homem na realização de tarefas, é uma característica da própria cultura ocidental'' \cite{romano2002introduccao}.
+\end{citacao}
+
+% Na modernidade, os novos modelos de produção estão centrados na flexibilidade, digitalização e inteligência dos processos produtivos, com a interconectividade, automação, troca de dadosentre máquinas e processos (REF ABAIXO)
+Os diversos setores da indústria estão em constante desenvolvimento, a mais recente delas sendo representada pelo termo Indústria 4.0, marcada pela maior conectividade da hierarquia e pela digitalização de processos, garantindo maior velocidade na transmissão dos dados, mais eficiência nos processos e celeridade na tomada de decisão, além do volume sem precedentes de dados gerados e armazenados que possibilitam análises e previsões que, por si mesmos, constituem uma nova área de especialização \cite{Arão_Silva_2023_intro}.
+
+
+Sob esta óptica, o objetivo final da Indústria 4.0 é impulsionar a fabricação ou os serviços de forma progressiva para que sejam mais rápidos, eficazes e eficientes, o que só pode ser alcançado através da incorporação de tecnologia moderna em máquinas, componentes e peças que transmitam dados em tempo real para sistemas de TI em rede \cite{Anand_2024_intro}, como os robôs móveis e industriais. 
+
+Robôs industriais  são máquinas reprogramáveis que podem realizar diversos movimentos e se adaptar às necessidades das tarefas que executam, por isso são amplamente utilizados em processos de automação.
+
+O termo robô foi originalmente utilizado em 1921 pelo dramaturgo checo Karen Capek, na sua peça de teatro "Os Robôs de Russum"\ como referência a um autômato que acaba rebelando-se contra o ser humano. A palavra robô é derivada de "robota"\ de origem eslava que significa "trabalho forçado". O termo robótica foi criado por Asimov para designar a ciência que se dedica ao estudo destas máquinas \cite{sciavicco1995robotica}.
+
+
+Robôs podem ser definidos ainda como mecanismos atuadores programados com um grau de autonomia para performar locomoção, manipulação ou posicionamento sendo dotados de um sistema de controle. Alguns exemplos de estruturas mecânicas robóticas são manipuladores, plataformas móveis e robôs vestíveis \cite{Iso8373}.
+
+A robótica tem experimentado um crescimento no mundo inteiro, que é evidenciado pelo aumento expressivo no número de máquinas robóticas instaladas e operacionais. Segundo o relatório World Robotics 2025 \cite{IFR2025} , o número total de robôs industriais em uso ultrapassou 4,6 milhões em 2024, um crescimento de 9\% em relação ao ano anterior. As novas instalações anuais de robôs industriais ultrapassaram 500 mil unidades pelo quarto ano consecutivo, demonstrando a expansão constante da automação em fábricas e indústrias globais. % FALAR QUE A ROBOTICA MOVEL TEM CRESCIDO XAMA
+
+Os robôs móveis autônomos, ou AMR (Autonomous Mobile Robots), são máquinas automatizadas capazes de se locomover e executar tarefas em ambientes variados, sem a necessidade de intervenção humana direta. Equipados com sensores avançados, softwares baseados em inteligência artificial e sistemas de navegação, eles interpretam o ambiente, evitam obstáculos e realizam operações complexas. Esses robôs têm aplicações relevantes em setores industriais, logísticos, saúde, e serviços gerais, destacando-se pelo aumento expressivo no uso e investimento global nas últimas décadas \cite{Mecalux}.
+
+Conforme o Robot Institute of America, um robô móvel é um manipulador multifuncional e reprogramável projetado para cumprir diferentes tarefas por intermédio de movimentos integrados \cite{considine2012standard}. Diante disso, \citeonline{leao2021exploraccao} expõe que o uso de robôs móveis integra ambientes industriais e centros de pesquisa, possibilitando maior segurança para os profissionais envolvidos, bem como diminuir o risco de acidentes e possíveis ocorrências de atrasos. Além do mais, novas tecnologias, dispositivos e programação aplicada, elevam as possibilidades de robôs realizarem uma gama de tarefas com elevada precisão, conforme apresentado por \citeonline{martinsnavegaccao}. 
+
+Ainda assim, o desenvolvimento de sistemas robóticos móveis enfrenta a complexidade da integração entre hardware e software. Muitas soluções existentes operam como sistemas fechados ('caixas-pretas'), impedindo que estudantes e desenvolvedores compreendam ou modifiquem as camadas de controle de baixo nível e de percepção, limitando a customização necessária para pesquisas específicas \cite{patel2023open}. Além disso, a falta de documentação clara e de arquiteturas abertas dificulta a aplicação prática de conceitos modernos, como o middleware ROS2 e controladores PID em cenários educacionais e reais \cite{moraes2023desafios}. Diante disso, uma alternativa eficiente para mitigar esses desafios se torna importante, viabilizando ferramentas científicas mais acessíveis e reprodutíveis \cite{jolles2022open}.
+
+Para mais, à medida que a escala e o escopo dos sistemas robóticos atuais crescem, projetar e desenvolver o software que os comanda está se tornando cada vez mais difícil, conforme apresentado por \citeonline{quigley2009ros}. Na robótica, de acordo com \citeonline{albonico2023software} e \citeonline{macenski2022robot}, majoritariamente por razão da alta complexidade envolvida, é comum dispor de frameworks e suítes de software, entre os quais o \textit{Robot Operating System} (ROS) se tornou um padrão.
+
+Diante do exposto, o presente trabalho propõe o desenvolvimento de uma plataforma robótica seguidora de linha baseada na adaptação de um robô aspirador comercial, utilizando controle Proporcional-Integral-Derivativo (PID) para seguir trajetórias, e integrada com o sistema Robot Operating System 2 (ROS2) para controle, processamento e comunicação. A plataforma conta com um Raspberry Pi 4 Model B como controlador principal e um microcontrolador ESP32 dedicado à leitura dos sensores de linha, proporcionando uma solução prática, acessível e personalizável para aplicações educacionais e de pesquisa em robótica móvel.

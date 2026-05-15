@@ -1,0 +1,22 @@
+% ----------------------------------------------------------
+% Conclusão
+% ----------------------------------------------------------
+\chapter{Conclusão}
+
+O projeto atingiu os objetivos propostos ao implementar com sucesso uma plataforma robótica seguidora de linha autônoma, modular e de código aberto, adaptada a partir de um aspirador Roomba® 614. A consolidação do Raspberry Pi 4 (Ubuntu 22.04) como cérebro do sistema, eliminando componentes intermediários problemáticos, revelou-se uma decisão fundamental para a estabilidade do conjunto. O uso de comunicação por cabo USB-Serial e a integração via \textit{Edge Computing} para o processamento do algoritmo PID garantiram que o robô executasse correções de percurso em tempo real. Ademais, o ecossistema ROS 2 Humble conferiu a orquestração robusta necessária para operar sensores e atuadores sincronizadamente de forma contínua.
+
+Como limitação da atual implementação física, destaca-se que o robô encontra-se em operação baseada inteiramente na malha de controle por infravermelho. Muito embora o módulo de visão computacional — capaz de realizar a leitura espacial por marcadores ArUco — já se encontre implementado e plenamente validado no ambiente simulado, este ainda não foi integrado fisicamente à plataforma em testes de campo reais devido a restrições de montagem da câmera nesta fase.
+
+Em suma, este trabalho demonstra que a utilização de hardware comercial adaptado com sistemas de código aberto (ROS 2) e computação de borda (Raspberry Pi 4) é um caminho viável e altamente educativo para o desenvolvimento de robótica avançada. A plataforma resultante não apenas cumpre sua tarefa de seguimento de linha, mas serve como um laboratório móvel para o ensino de sistemas embarcados, controle automático e arquiteturas de software distribuídas, democratizando o acesso a tecnologias de ponta com um custo reduzido.
+
+\section{Trabalhos Futuros}
+
+Diante dos resultados alcançados, os trabalhos futuros concentram-se na expansão das capacidades sensoriais e na aplicação prática do sistema:
+
+\begin{enumerate}
+    \item \textbf{Integração de Visão Computacional Embarcada:} O próximo passo imediato consiste em embarcar fisicamente uma câmera (ex: Raspberry Pi Camera Module ou webcam USB) no chassi do robô. Isso permitirá que o nó de detecção de ArUco, já validado em simulação, seja integrado ao nó orquestrador real (\textit{mission\_control\_pi}). Com isso, o robô poderá realizar navegação baseada em marcos visuais, aumentando a precisão da localização e permitindo a execução de tarefas complexas de logística.
+    
+    \item \textbf{Aplicação em Logística Indoor:} Pretende-se transpor este protótipo físico validado para cenários reais de logística automatizada. A plataforma pode ser aplicada na movimentação autônoma de insumos em almoxarifados ou unidades hospitalares, onde o seguimento de linha garante trajetórias seguras e previsíveis, enquanto os marcadores ArUco podem indicar pontos de parada, coleta ou entrega de materiais.
+    
+    \item \textbf{Sistemas Multi-Robô:} Exploração da comunicação descentralizada do ROS 2 para coordenar múltiplos robôs Roomba operando em uma mesma pista, permitindo estudos sobre evasão de obstáculos colaborativa e otimização de fluxo em ambientes compartilhados.
+\end{enumerate}

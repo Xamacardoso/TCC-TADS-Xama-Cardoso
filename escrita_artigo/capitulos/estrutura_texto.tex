@@ -1,0 +1,51 @@
+% ----------------------------------------------------------
+% Estrutura do Texto
+% ----------------------------------------------------------
+\vspace*{1cm}
+\chapter{Desenvolvimento} \label{chap:estrutura}
+
+Para avaliar a escalabilidade da rede LoRaWAN, este estudo emprega a simulação computacional baseada em eventos discretos, utilizando o simulador NS-3. A seção a seguir detalha os conceitos fundamentais da tecnologia abordada e a configuração do ambiente de simulação.
+
+\section{Características da Camada Física e MAC do LoRaWAN}
+
+A comunicação em redes LoRaWAN baseia-se na modulação LoRa, a qual implementa a técnica de espalhamento espectral \textit{Chirp Spread Spectrum} (CSS). Uma característica crucial desta modulação é a ortogonalidade dos Fatores de Espalhamento (SF). Os SFs variam de SF7 (maior taxa de dados, menor alcance) a SF12 (menor taxa de dados, maior alcance e robustez). A ortogonalidade permite que sinais transmitidos simultaneamente no mesmo canal, mas com SFs diferentes, sejam decodificados com sucesso pelo \textit{gateway}, mitigando parte do problema de colisões.
+
+Na camada de Controle de Acesso ao Meio (MAC), o protocolo LoRaWAN em sua configuração padrão (Classe A) adota uma variação do protocolo ALOHA não slotted. Neste modelo, os dispositivos finais (\textit{End Devices}) transmitem seus dados de forma assíncrona, sempre que possuem informação disponível, sem a necessidade de escuta prévia do canal (\textit{Listen Before Talk} - LBT). A simplicidade do ALOHA contribui significativamente para o baixo consumo energético, pois os nós podem permanecer em estado de hibernação (\textit{sleep mode}) na maior parte do tempo. No entanto, à medida que a densidade de nós aumenta na rede, a probabilidade de transmissões simultâneas utilizando o mesmo SF no mesmo canal também cresce, o que gera o chamado efeito de colisão destrutiva \cite{VanAbeele2017}.
+
+Para atenuar os problemas de escalabilidade e otimizar o consumo de energia, o protocolo LoRaWAN implementa o mecanismo \textit{Adaptive Data Rate} (ADR). O ADR permite que o Servidor de Rede (\textit{Network Server}) ajuste dinamicamente o SF e a potência de transmissão de cada dispositivo final de forma individual, com base na qualidade do link (Razão Sinal-Ruído - SNR) das mensagens anteriores. Dispositivos mais próximos ao \textit{gateway} recebem ordens para utilizar SFs menores, diminuindo o tempo no ar (\textit{Time on Air}) de seus pacotes, o que reduz a probabilidade de colisões na rede e economiza a energia da bateria do nó transmissor.
+
+\section{Configuração do Cenário de Simulação}
+
+A avaliação de desempenho foi conduzida por meio do \textit{Network Simulator 3} (NS-3), em sua versão 3.45, integrado ao módulo \textit{lorawan} \cite{signetlabdei}. O cenário de simulação modela uma rede com topologia estrela-de-estrelas (\textit{Star-of-Stars}), consistindo em um único \textit{gateway} posicionado no centro de um raio circular, ao redor do qual os \textit{End Devices} estão distribuídos de maneira uniforme.
+
+Foram avaliados cenários com densidade crescente de dispositivos, especificamente: 100, 500, 1000, 2000 e 5000 nós \cite{Jain1991}. Todos os nós foram configurados para gerar tráfego em um padrão de aplicação de envios periódicos não confirmados (Classe A), com pacotes de dados de comprimento fixo de 51 bytes (referente ao tamanho da carga útil) acrescidos dos respectivos cabeçalhos MAC. O período médio de transmissão de cada nó foi ajustado para 600 segundos (10 minutos), e um valor de \textit{jitter} uniforme foi aplicado aos tempos de início de transmissão para evitar sincronização espúria da rede. O modelo de canal adotado foi o Log-Distance Propagation Loss Model. A Tabela \ref{tab:parametros} sumariza os parâmetros de simulação adotados, embasados nas especificações regionais da banda EU868 do LoRaWAN.
+
+\begin{table}[htb]
+\caption{\label{tab:parametros}Parâmetros globais da simulação no NS-3.}
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor[HTML]{C0C0C0}
+\textbf{Parâmetro} & \textbf{Valor adotado} \\ \hline
+Simulador & NS-3 (v3.45) \\ \hline
+Módulo & lorawan (signetlabdei) \\ \hline
+Topologia & Star-of-Stars (1 Gateway) \\ \hline
+Raio da Célula & 5000 m \\ \hline
+Modelo de Perda de Propagação & Log-Distance ($n = 2.9$) \\ \hline
+Densidade de Nós ($N$) & 100, 500, 1000, 2000 e 5000 \\ \hline
+Período da Aplicação & 600 s (com Jitter uniforme) \\ \hline
+Tamanho da Carga Útil (Payload) & 51 Bytes \\ \hline
+Tempo de Simulação & 3600 s (1 hora) por repetição \\ \hline
+\end{tabular}
+\fonte{Elaborado pelo autor (2025).}
+\end{table}
+
+\section{Estratégias de Alocação e Métricas}
+
+O estudo comparou duas estratégias de alocação de recursos:
+\begin{enumerate}
+    \item \textbf{Cenário 1 (Alocação Estática)}: O mecanismo ADR é desativado. O SF (7 a 12) de cada nó é alocado estaticamente no início da simulação com base na distância euclidiana em relação ao \textit{gateway}, formando anéis concêntricos de cobertura.
+    \item \textbf{Cenário 2 (Alocação Dinâmica com ADR)}: O mecanismo ADR é ativado. Todos os nós iniciam a transmissão utilizando o fator mais robusto (SF12) e, através de mensagens de controle de nível MAC confirmadas, o Servidor de Rede otimiza progressivamente o SF dos nós conforme as condições do canal \cite{VanAbeele2017}.
+\end{enumerate}
+
+Para fins de análise estatística rigorosa, cada configuração de densidade foi executada 33 vezes, variando-se a semente do gerador de números pseudoaleatórios (\textit{RngRun}) do NS-3 em cada iteração \cite{Jain1991}. As principais métricas extraídas para comparação foram a Taxa de Entrega de Pacotes (PDR - \textit{Packet Delivery Ratio}), calculada como a razão entre o total de pacotes recebidos pelo \textit{gateway} e o total transmitido pelas aplicações dos nós, e o consumo de energia médio, em Joules, reportado pelo modelo de bateria de rádio \textit{LoraRadioEnergyModel} durante a duração da simulação.

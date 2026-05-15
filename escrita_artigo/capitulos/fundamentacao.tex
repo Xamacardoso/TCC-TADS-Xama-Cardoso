@@ -1,0 +1,65 @@
+% ----------------------------------------------------------
+% Fundamentação Teórica
+% ----------------------------------------------------------
+\chapter{Fundamentação Teórica}
+
+Para melhor compreender as decisões de projeto tomadas durante o desenvolvimento da proposta deste trabalho, é necessário entender alguns conceitos teóricos relacionados a robôs móveis, cinemática diferencial, ROS 2 e o Raspberry Pi 4.
+
+
+\section{Robôs Móveis}
+
+De acordo com \citeonline{niloy2021critical}, ``Robôs que podem se mover de forma autônoma e podem tomar decisões inteligentes percebendo seus ambientes e objetos ao redor são conhecidos como robôs móveis autônomos''. Robôs móveis de interior podem ser equipados com pernas, rodas ou asas, sendo que os com rodas se provam os mais eficientes em termos de estabilidade, facilidade de controle e simplicidade de design mecânico.
+
+
+\subsection{Locomoção por Rodas}
+
+A locomoção por rodas é um dos mecanismos mais utilizados por ser o método mais simples de deslocamento para robôs móveis. Existem quatro tipos principais de rodas: padrão, rodízio, omnidirecional e esférica. A seleção do tipo de rodas está intrinsecamente relacionada à disposição e geometria na estrutura robótica, afetando diretamente estabilidade, capacidade de manobra e capacidade de controle.
+
+Para o presente trabalho, a combinação de rodas padrão (tração) com roda rodízio (apoio) foi selecionada por oferecer a robustez necessária para um robô seguidor de linha, onde a precisão da trajetória é priorizada em detrimento da capacidade de deslocamento lateral.
+
+
+\subsection{Cinemática Diferencial}
+
+A plataforma robótica desenvolvida neste trabalho utiliza uma configuração de acionamento diferencial, que consiste em duas rodas motrizes montadas em um eixo comum, cada uma controlada independentemente por seu próprio motor, e uma roda passiva (\textit{caster}) para equilíbrio e estabilidade. Segundo \citeonline{siegwart2011introduction}, esta é uma das configurações mais comuns em robótica móvel devido à sua simplicidade mecânica e capacidade de girar no próprio eixo (raio de giro zero).
+
+Para modelar o movimento, considera-se $v_L$ e $v_R$ como as velocidades lineares das rodas esquerda e direita, respectivamente. A velocidade linear $v$ do robô e sua velocidade angular $\omega$ em torno do centro do eixo são dadas pelas Equações \ref{eq:cinematica_v} e \ref{eq:cinematica_w}, onde $L$ representa a distância entre as rodas (\textit{track width}):
+
+\begin{equation}
+    v = \frac{v_R + v_L}{2}
+    \label{eq:cinematica_v}
+\end{equation}
+
+\begin{equation}
+    \omega = \frac{v_R - v_L}{L}
+    \label{eq:cinematica_w}
+\end{equation}
+
+No contexto do controle de navegação, é frequentemente necessário o processo inverso: determinar a velocidade de rotação necessária para cada motor a partir de uma velocidade linear e angular desejada. A cinemática inversa é expressa por:
+
+\begin{equation}
+    v_R = v + \frac{\omega \cdot L}{2}
+    \label{eq:inversa_vr}
+\end{equation}
+
+\begin{equation}
+    v_L = v - \frac{\omega \cdot L}{2}
+    \label{eq:inversa_vl}
+\end{equation}
+
+Estudos recentes, como o de \citeonline{ferreira2023differential}, demonstram que a precisão deste modelo cinemático é fundamental para minimizar erros de trajetória em ambientes reais, onde fatores como escorregamento das rodas e irregularidades do piso podem introduzir incertezas que devem ser compensadas por malhas de controle, como o PID implementado neste projeto.
+
+
+\section{ROS 2}
+
+\textit{Robot Operating System} (ROS) é um kit de desenvolvimento de software de código aberto para aplicações de robótica, que oferece uma plataforma de software padrão para desenvolvedores de todos os setores, desde pesquisa e prototipagem até implantação e produção \cite{ROS.org}. O ROS é um sistema meta-operacional que provê abstração de hardware, controle de dispositivos de baixo nível, troca de mensagens entre processos e gerenciamento de pacotes \cite{macenski2022robot}.
+
+A arquitetura do ROS 2, sua versão mais recente, substitui o nó \textit{Master} centralizado do ROS 1 por uma camada de \textit{middleware} baseada no protocolo \textit{Data Distribution Service} (DDS), que permite comunicação distribuída e descentralizada entre os nós. Os conceitos fundamentais do ROS 2 incluem \textit{nodes} (unidades de código executável), \textit{topics} (barramentos para troca de mensagens), \textit{services} (comunicação bidirecional síncrona) e \textit{actions} (tarefas de longa duração com retorno contínuo).
+
+A relevância do ROS para a indústria é evidenciada pela existência de quase 400 empresas que utilizam o framework para criar produtos ou oferecer serviços, incluindo empresas como Bosch, Boeing, BMW Group e KUKA \cite{roscomp}. No contexto acadêmico, o ROS 2 tem sido amplamente adotado para pesquisa em robótica móvel, desde exploração de ambientes subterrâneos \cite{miller2020mine} até missões espaciais, como o projeto VIPER da NASA \cite{macenski2022robot}.
+
+
+\section{Raspberry Pi 4 Model B}
+
+O Raspberry Pi 4 Model B é um computador de placa única (\textit{Single Board Computer} -- SBC) desenvolvido pela Raspberry Pi Foundation. Conta com um processador ARM Cortex-A72 \textit{quad-core} de 64 bits a 1,5 GHz, com opções de memória RAM de 2 GB a 8 GB \cite{rpi4}.
+
+Este SBC oferece conectividade completa com interfaces USB 3.0, USB 2.0, Gigabit Ethernet, Bluetooth 5.0 e Wi-Fi 802.11ac, com \textit{throughput} superior ao de plataformas como Arduino \cite{rpi_network_throughput}. A capacidade de múltiplas interfaces GPIO (\textit{General Purpose Input/Output}) permite o controle direto de sensores, atuadores e outros dispositivos eletrônicos, favorecendo o desenvolvimento de plataformas robóticas. No presente trabalho, o Raspberry Pi 4 é utilizado como controlador principal, responsável pela execução do ROS 2, leitura dos sensores de linha e processamento do algoritmo PID.

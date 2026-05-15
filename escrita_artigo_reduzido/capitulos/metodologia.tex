@@ -1,0 +1,62 @@
+% ----------------------------------------------------------
+% Metodologia
+% ----------------------------------------------------------
+\chapter{Metodologia}
+
+A metodologia deste trabalho seguiu uma estrutura de etapas, indo desde o levantamento de material teórico e estudo de trabalhos relacionados até a implementação e validação prática da plataforma robótica.
+
+
+\section{Ferramentas e Materiais}
+
+A execução e a comprovação dos resultados foram realizadas nas instalações do Laboratório de Automação, Robótica e Sistemas Inteligentes (LABIRAS), vinculado ao Instituto Federal do Piauí (IFPI), campus Teresina Central. Foram empregados recursos de eletrônica, computação e fabricação digital disponíveis no local, com destaque para a utilização do Roomba® 614 iRobot, pertencente ao laboratório.
+
+A proposta utiliza um módulo de 5 sensores IR BFD-1000, que consiste em um conjunto de cinco sensores infravermelhos de alta sensibilidade dispostos para a detecção precisa de linhas em superfícies, essencial para o funcionamento do robô seguidor de linha. Além disso, o módulo possui um sensor infravermelho frontal para detecção de distância e um sensor de impacto, ampliando suas aplicações para navegação autônoma e prevenção de colisões. O BFD-1000 fornece sinais digitais limpos para o controlador e conta com LEDs indicadores para facilitar a depuração durante o desenvolvimento.
+
+
+\section{Arquitetura de Hardware}
+
+A arquitetura eletrônica foi organizada em camadas:
+
+\begin{itemize}
+	\item \textbf{Camada de controle e sensoriamento:} Raspberry Pi 4 Model B, atuando como controlador principal, responsável pela leitura direta dos sensores infravermelhos através de seus pinos GPIO e pelo processamento do algoritmo de controle PID;
+	\item \textbf{Camada de comunicação:} módulo Wi-Fi integrado do Raspberry Pi 4, possibilitando a integração com o ecossistema ROS 2 e a visualização remota dos dados;
+	\item \textbf{Alimentação:} bateria 12V.
+\end{itemize}
+
+A centralização do sensoriamento e do controle em uma única unidade de processamento simplifica a arquitetura do sistema, eliminando a necessidade de protocolos de comunicação intermediários e reduzindo a latência entre a leitura dos sensores e a atuação nos motores.
+
+
+\section{Software}
+
+O software de controle foi desenvolvido com base no ROS 2, utilizando a linguagem de programação C++, executado diretamente no Raspberry Pi 4, que opera como uma estação Linux. A padronização dos códigos e mensagens, bem como a estrutura de diretórios, segue o modelo de \textit{packages} ROS 2, conforme descrito na documentação oficial \cite{ros2_humble_create_package}, com tópicos normalizados (como \textit{/piline/cmd\_vel}, \textit{/piline/wheels}), facilitando a compatibilidade com outros projetos desenvolvidos no LABIRAS.
+
+
+\subsection{Controle de Navegação (PID)}
+
+O controle de navegação autônoma é executado por um nó ROS 2. Este nó implementa uma malha de controle fechada baseada no algoritmo Proporcional-Integral-Derivativo (PID), responsável por corrigir a trajetória do robô em tempo real. A lógica de funcionamento segue os seguintes passos:
+
+\begin{enumerate}
+    \item \textbf{Leitura dos Sensores:} O nó realiza a leitura direta dos 5 sensores infravermelhos do módulo BFD-1000, conectados aos pinos GPIO do Raspberry Pi 4;
+
+    \item \textbf{Cálculo do Erro ($e(t)$):} Atribui-se um peso para cada sensor ($-2, -1, 0, 1, 2$), onde $0$ representa o sensor central (robô alinhado). O erro instantâneo é calculado pela média ponderada dos sensores ativos. Se o erro for negativo, o robô deve girar para a esquerda; se positivo, para a direita;
+
+    \item \textbf{Algoritmo PID:} O valor de correção angular $u(t)$ é calculado pela equação discreta do PID:
+    \begin{equation}
+        u(t) = K_p \cdot e(t) + K_i \cdot \sum_{0}^{t} e(k) + K_d \cdot (e(t) - e(t-1))
+    \end{equation}
+    Onde $K_p$, $K_i$ e $K_d$ são as constantes de ganho sintonizadas experimentalmente para garantir uma resposta rápida e estável;
+
+    \item \textbf{Publicação de Comando:} A saída $u(t)$ é convertida em uma mensagem do tipo \textit{geometry\_msgs/Twist}. A velocidade linear ($v$) é mantida constante (ou reduzida dinamicamente em curvas acentuadas), enquanto a velocidade angular ($z$) recebe o valor de $u(t)$. Esta mensagem é publicada no tópico \textit{/piline/cmd\_vel}, instruindo os motores a realizarem a correção de trajetória necessária.
+\end{enumerate}
+
+
+\subsection{Monitoramento e Visualização Topológica}
+
+Paralelamente ao PID, o sistema executa um algoritmo de detecção de padrões para identificar eventos topológicos na pista, como bifurcações, cruzamentos ou marcas de fim de curso. Ao detectar uma configuração específica de sensores (por exemplo, todos os sensores ativos indicando um cruzamento), o robô identifica o evento como um \textit{checkpoint} lógico, toma uma decisão de navegação pré-programada e publica um marcador visual (\textit{visualization\_msgs/Marker}) para o \textit{RViz2}.
+
+Dessa forma, a interface gráfica exibe não apenas a posição do robô, mas desenha no mapa virtual o caminho percorrido e destaca visualmente as decisões tomadas, permitindo que o operador valide a lógica de navegação em tempo real.
+
+
+\subsection{Mensagem Customizada}
+
+Para a comunicação de baixo nível, definiu-se a estrutura de mensagem customizada, denominada \textit{wheels}, publicada através do tópico \textit{/piline/wheels}. Esta definição seguiu como referência o padrão das mensagens do pacote \textit{create\_msgs}, adaptada para as especificidades do robô aspirador utilizado. A estrutura possui, além do cabeçalho (\textit{header}), seis campos divididos simetricamente entre as rodas motrizes: dados booleanos de segurança (\textit{drop}), contagem dos codificadores incrementais (\textit{encoder\_counts}) e velocidade linear instantânea (\textit{velocity}) para cada roda.

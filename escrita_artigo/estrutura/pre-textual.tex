@@ -1,0 +1,85 @@
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+%% Elementos Pré Textuais
+%% ----------------------
+%% 
+%% Segundo o manual do IFPI, eles devem ser os seguintes (nessa ordem):
+%%  1. Capa (obrigatório)
+%%  2. Folha de rosto (obrigatório)
+%%  3. Errata (opcional)
+%%  4. Folha de aprovação (obrigatório)
+%%  5. Dedicatória (opcional)
+%%  6. Epígrafe (opcional)
+%%  7. Resumo (obrigatório)
+%%  8. Abstract/Resumo em outra língua (obrigatório)
+%% 9. Lista de Ilustrações (opcional)
+%% 10. Lista de Tabelas (opcional)
+%% 11. Lista de Abreviaturas e Siglas (opcional)
+%% 12. Lista de Símbolos (opcional)
+%% 13. Sumário (obrigatório)
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+
+%% 01: Capa
+\imprimircapa
+
+%% 02: Folha de Rosto
+\imprimirfolhaderosto*
+
+%% 03: Errata
+%\input{pre-textual/errata}
+
+%% 04: Folha de Aprovação
+\include{abntex-ifpi/folhaaprovacao}
+
+%% 05: Dedicatória
+%\include{pre-textual/dedicatoria}
+
+%% 06: Epígrafe
+%\input{pre-textual/epigrafe}
+
+%% --- INÍCIO DA PÁGINA DO ARTIGO ---
+
+%% Título do Trabalho
+\begin{center}
+    {\ABNTEXchapterfont\bfseries\MakeUppercase{\imprimirtitulo}}
+\end{center}
+
+\vspace{0.3cm} % Respiro após o título
+
+%% Autoria e Afiliação
+\flushright 
+\autornomecompleto\footnote{Discente do Curso de Tecnologia em Análise e Desenvolvimento de Sistemas. Instituto Federal do Piauí (IFPI) -- Campus Teresina Central. E-mail: contato.xcardoso@gmail.com} \\
+\profnomecompleto\footnote{Docente do Instituto Federal do Piauí (IFPI) -- Campus Teresina Central. Orientador do trabalho. E-mail: francisco.marcelino@ifpi.edu.br} \par 
+
+\vspace{0.4cm} % Respiro antes do resumo
+
+\justifying 
+
+%% 08: Resumo
+\input{pre-textual/resumo}
+
+\newpage
+
+%% 09: Abstract/Resumo em língua estrangeira
+\input{pre-textual/resumo-lingua-estrangeira}
+
+\vspace{0.3cm} % Espaço para a data caber na página
+
+\noindent Data de Aprovação: \dataapresentacao \par
+\vspace{0.8cm}
+
+%% 10: Lista de Ilustrações
+%\input{pre-textual/lista-de-ilustracoes}
+
+%% 11: Lista de Tabelas
+%\input{pre-textual/lista-de-tabelas}
+
+%% 12: Lista de Abreviaturas e Siglas
+%\input{pre-textual/siglas}
+
+%% 13: Lista de Símbolos
+%\input{pre-textual/simbolos}
+
+%% 14: Sumário 
+%\pdfbookmark[0]{\contentsname}{toc}
+%\tableofcontents*
+%\cleardoublepage

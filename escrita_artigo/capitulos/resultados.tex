@@ -1,0 +1,33 @@
+% ----------------------------------------------------------
+% Resultados
+% ----------------------------------------------------------
+\chapter{Resultados}
+
+Os resultados obtidos com o desenvolvimento da plataforma robótica seguidora de linha demonstram a viabilidade da proposta em integrar conceitos de robótica móvel e controle distribuído via ROS 2. Este capítulo descreve a estrutura física do robô, seu funcionamento e os testes realizados.
+
+
+\section{Estrutura Física e Montagem}
+
+A concepção do projeto partiu da adaptação do robô aspirador Roomba® 614 iRobot disponível no LABIRAS. A estrutura foi complementada com componentes impressos em 3D, modelados no software Autodesk Fusion 360, onde foram definidos os parâmetros geométricos, pontos de fixação e o arranjo interno dos componentes. O chassi impresso apresentou resistência adequada às solicitações mecânicas e facilidade de manutenção. A modularidade do projeto possibilitou a substituição de componentes sem necessidade de reconstrução integral da estrutura, reforçando o caráter educacional da plataforma.
+
+O módulo de sensores BFD-1000 foi acoplado na parte frontal inferior do robô, garantindo proximidade adequada com a superfície para a detecção precisa da linha. O Raspberry Pi 4 Model B foi posicionado na parte superior do chassi, com conexões diretas aos sensores IR via GPIO e aos motores via drivers de potência.
+
+
+\section{Operação do Robô}
+
+Para a inicialização do robô, o Raspberry Pi 4 executa o nó de controle ROS 2 desenvolvido em C++. Após a inicialização, a estrutura de nós e tópicos ROS pode ser visualizada utilizando a ferramenta \textit{rqt\_graph}. O nó de controle realiza a leitura contínua dos sensores de linha, calcula o erro de posição e aplica o algoritmo PID para gerar os comandos de velocidade publicados no tópico \textit{/piline/cmd\_vel}.
+
+A comunicação via ROS 2 mostrou-se estável, permitindo a publicação de informações de telemetria das rodas e a recepção de comandos de forma contínua, validando a bidirecionalidade da arquitetura proposta. O sistema é capaz de ser operado de forma autônoma, seguindo a linha, ou monitorado remotamente a partir de uma interface ROS, o que viabiliza futuras aplicações em ambientes distribuídos.
+
+%% TODO: Adicionar resultados dos testes práticos do seguidor de linha
+%% - Testes em pistas com diferentes configurações (retas, curvas, bifurcações)
+%% - Métricas de desempenho (tempo de percurso, desvio máximo da linha)
+%% - Sintonia dos parâmetros PID (Kp, Ki, Kd) e seu impacto no comportamento
+%% - Screenshots do RViz2 mostrando a visualização topológica
+
+
+\section{Discussão}
+
+A centralização do sensoriamento e controle no Raspberry Pi 4 simplificou significativamente a arquitetura do sistema em comparação com abordagens que utilizam microcontroladores dedicados para leitura de sensores. A eliminação de camadas intermediárias de comunicação reduziu a latência entre a detecção da linha e a atuação nos motores, contribuindo para a estabilidade do controle PID.
+
+Diante disso, assim como \citeonline{vilanova2022aeronave}, verifica-se a possibilidade de uso da plataforma robótica elaborada como recurso didático para aplicação dos conteúdos de controle, automação e sistemas embarcados, integrando sensores, atuadores e comunicação em rede em um ambiente real de aprendizagem.
