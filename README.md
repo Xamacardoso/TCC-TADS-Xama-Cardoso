@@ -35,5 +35,7 @@ Ou utilizando o `latexmk`:
 latexmk -pdf main.tex
 ```
 
+E ainda, usando a extensao Latex Workshop do VS Code, basta clicar em "Build LaTeX project" -> "Build with latexmk"
+
 ---
-*Arthur Xamã Cardoso - TADS*
+*Xamã Cardoso - ADS*
