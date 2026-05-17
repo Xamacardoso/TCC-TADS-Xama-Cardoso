@@ -3,17 +3,21 @@
 \backcite {Anand_2024_intro, IFR2025, braun2022robot}{{4}{1}{chapter.1}}
 \backcite {patel2023open, jolles2022open}{{4}{1}{chapter.1}}
 \backcite {patel2023open, jolles2022open}{{4}{1}{chapter.1}}
-\backcite {macenski2022robot}{{5}{1}{chapter.1}}
-\backcite {vega2025bridging}{{5}{1}{chapter.1}}
-\backcite {kortelainen2023short}{{5}{1}{chapter.1}}
-\backcite {siegwart2011introduction}{{5}{2.1}{section.2.1}}
-\backcite {vega2025bridging}{{5}{2.1}{section.2.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1.1}{subsection.2.1.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1.1}{subsection.2.1.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1.1}{subsection.2.1.1}}
-\backcite {macenski2022robot, zhang2022distributed}{{6}{2.1.2}{subsection.2.1.2}}
-\backcite {macenski2022robot, zhang2022distributed}{{6}{2.1.2}{subsection.2.1.2}}
-\backcite {university2024labbook}{{8}{2.2.1}{subsection.2.2.1}}
-\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{8}{2.2.1}{subsection.2.2.1}}
-\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{8}{2.2.1}{subsection.2.2.1}}
-\backcite {amadi2024ros2control}{{11}{2.2.3.1}{figure.2.5}}
+\backcite {macenski2022robot}{{4}{1}{chapter.1}}
+\backcite {vilanova2022aeronave}{{4}{1}{chapter.1}}
+\backcite {Dantas_2022}{{4}{1}{chapter.1}}
+\backcite {vega2025bridging, kortelainen2023short}{{4}{1}{chapter.1}}
+\backcite {vega2025bridging, kortelainen2023short}{{4}{1}{chapter.1}}
+\backcite {siegwart2011introduction, macenski2022robot, zhang2022distributed}{{4}{2}{chapter.2}}
+\backcite {siegwart2011introduction, macenski2022robot, zhang2022distributed}{{4}{2}{chapter.2}}
+\backcite {siegwart2011introduction, macenski2022robot, zhang2022distributed}{{4}{2}{chapter.2}}
+\backcite {ferreira2023differential, baluja2024design}{{4}{2.1}{section.2.1}}
+\backcite {ferreira2023differential, baluja2024design}{{4}{2.1}{section.2.1}}
+\backcite {amadi2024ros2control}{{5}{2.1}{equation.2.1}}
+\backcite {university2024labbook, stark2026development}{{5}{2.2}{figure.caption.5}}
+\backcite {university2024labbook, stark2026development}{{5}{2.2}{figure.caption.5}}
+\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{5}{2.2}{figure.caption.5}}
+\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{5}{2.2}{figure.caption.5}}
+\backcite {rpi4, rpi_network_throughput}{{6}{3}{chapter.3}}
+\backcite {rpi4, rpi_network_throughput}{{6}{3}{chapter.3}}
+\backcite {Dantas_2022}{{7}{3.2}{figure.caption.7}}

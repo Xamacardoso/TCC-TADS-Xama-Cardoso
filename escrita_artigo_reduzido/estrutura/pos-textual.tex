@@ -10,10 +10,11 @@
 %% 5. Índices (opcional)
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
-%% Indica ao LaTeX que a partir deste ponto ficarão os elementos pós-textuais
+%% Redefine \postextual para não forçar \clearpage (versão reduzida)
+\renewcommand{\postextual}{\phantomsection}
 \postextual
 
-\newpage
+\vspace{\onelineskip}
 
 %% 01: Referências bibliográficas
 \input{pos-textual/referencias}
@@ -24,14 +25,14 @@
 %% 03: Apêndices
 \input{pos-textual/apendices}
 
-%% 04: Anexos
-\input{pos-textual/anexos}
+%% 04: Anexos (desativado na versão reduzida)
+%\input{pos-textual/anexos}
 
 %% 05: Índices
 \input{pos-textual/indices}
 
-%% 07: Agradecimentos
-\include{pos-textual/agradecimentos}
+%% 07: Agradecimentos (desativado na versão reduzida)
+%\include{pos-textual/agradecimentos}
 
 
 %% Capa do CD (opcional)
