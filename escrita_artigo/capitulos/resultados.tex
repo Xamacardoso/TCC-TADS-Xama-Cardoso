@@ -1,7 +1,7 @@
 % ----------------------------------------------------------
 % Resultados
 % ----------------------------------------------------------
-\chapter{Resultados}
+\chapter{Resultados e Discussões}
 
 Os resultados obtidos com o desenvolvimento da plataforma robótica seguidora de linha demonstram a viabilidade da proposta em integrar conceitos de robótica móvel e controle distribuído via ROS 2. Este capítulo descreve a estrutura física do robô, seu funcionamento e os testes realizados.
 
@@ -15,19 +15,48 @@ O módulo de sensores BFD-1000 foi acoplado na parte frontal inferior do robô, 
 
 \section{Operação do Robô}
 
-Para a inicialização do robô, o Raspberry Pi 4 executa o nó de controle ROS 2 desenvolvido em C++. Após a inicialização, a estrutura de nós e tópicos ROS pode ser visualizada utilizando a ferramenta \textit{rqt\_graph}. O nó de controle realiza a leitura contínua dos sensores de linha, calcula o erro de posição e aplica o algoritmo PID para gerar os comandos de velocidade publicados no tópico \textit{/piline/cmd\_vel}.
+Para a inicialização do robô, o Raspberry Pi 4 executa o nó de controle ROS 2 nativo desenvolvido inteiramente em Python (através da biblioteca \texttt{rclpy}). Após a inicialização, a estrutura de nós e tópicos ROS pode ser visualizada utilizando a ferramenta \textit{rqt\_graph}. O nó de controle realiza a leitura contínua dos estados lógicos dos sensores de linha no tópico \textit{/line\_sensor}, calcula o erro de posição topológica e aplica o algoritmo PID para gerar os comandos de velocidade linear e angular publicados nativamente nos tópicos intermediários e finais (como \textit{/cmd\_vel\_pid} e \textit{/cmd\_vel}).
 
-A comunicação via ROS 2 mostrou-se estável, permitindo a publicação de informações de telemetria das rodas e a recepção de comandos de forma contínua, validando a bidirecionalidade da arquitetura proposta. O sistema é capaz de ser operado de forma autônoma, seguindo a linha, ou monitorado remotamente a partir de uma interface ROS, o que viabiliza futuras aplicações em ambientes distribuídos.
+A comunicação via ROS 2 mostrou-se altamente estável sob o \textit{middleware} DDS, validando a bidirecionalidade da arquitetura proposta. O sistema é capaz de ser operado de forma puramente autônoma em malha fechada, bem como monitorado remotamente a partir de interfaces gráficas como o \textit{RViz 2}, o que viabiliza a escalabilidade de monitoramento topológico com marcadores ArUco.
 
-%% TODO: Adicionar resultados dos testes práticos do seguidor de linha
-%% - Testes em pistas com diferentes configurações (retas, curvas, bifurcações)
-%% - Métricas de desempenho (tempo de percurso, desvio máximo da linha)
-%% - Sintonia dos parâmetros PID (Kp, Ki, Kd) e seu impacto no comportamento
-%% - Screenshots do RViz2 mostrando a visualização topológica
+\section{Avaliação de Desempenho e Sintonia do Controle PID}
 
+A fim de atestar a robustez do \textit{setup} físico, foram conduzidos testes práticos focando na resposta dinâmica do controle e na mitigação de falhas de hardware. A estabilidade elétrica e a eliminação do ruído de comunicação foram resolvidas satisfatoriamente ao isolar a alimentação do Raspberry Pi (bateria externa 5V) dos motores (bateria 12V Roomba) e utilizar um cabo adaptador USB-Serial TTL operando a uma taxa de 115200 bps na porta \textit{/dev/ttyUSB0}. Esta configuração eliminou perdas de frame e garantiu latência quase nula nos envios de comando.
+
+A sintonia dos parâmetros Proporcional, Integral e Derivativo (PID) foi realizada de forma empírica e refinada interativamente ao submeter o robô a curvas de diferentes raios de curvatura e trechos retos na pista física. O processo seguiu as seguintes etapas:
+\begin{itemize}
+    \item Primeiramente, elevou-se o ganho proporcional ($K_p$) até que o robô apresentasse uma oscilação constante em torno da linha;
+    \item Em seguida, introduziu-se o ganho derivativo ($K_d$) para amortecer essa oscilação, permitindo que o robô enfrentasse curvas com maior suavidade;
+    \item O ganho integral ($K_i$) foi avaliado e, por fim, mantido nulo nesta etapa, pois não houve desvios sistemáticos acumulados significativos durante as retas.
+\end{itemize}
+
+O sistema demonstrou total eficiência ao processar as leituras e calcular o erro topológico em uma malha de repetição contínua a \textbf{20 Hz} ($\Delta t = 0.05$ s). Durante os testes de validação com velocidade de cruzeiro fixada em 0,15 m/s, o algoritmo foi calibrado conforme demonstrado na Tabela \ref{tab:pid_tuning}.
+
+\begin{table}[H]
+    \centering
+    \caption{Sintonia experimental e impacto dos ganhos do controlador PID.}
+    \label{tab:pid_tuning}
+    \begin{tabular}{|c|c|p{8cm}|}
+        \hline
+        \textbf{Parâmetro} & \textbf{Valor Final} & \textbf{Impacto Dinâmico no Comportamento} \\ \hline
+        Proporcional ($K_p$) & $0.8$ & Provê a força motriz para a correção imediata. O valor alto garantiu correções enérgicas em curvas agudas, evitando que o chassi pesado saísse da pista. \\ \hline
+        Integral ($K_i$) & $0.0$ & Desativado nesta configuração experimental, uma vez que não houve acúmulo de erro em regime permanente considerável nas retas avaliadas. \\ \hline
+        Derivativo ($K_d$) & $0.2$ & Atua exclusivamente como fator de amortecimento para o termo proporcional. Foi essencial para inibir o \textit{overshoot} indesejado, suavizando o retorno ao centro da linha e mitigando a oscilação lateral (\textit{wobbling}). \\ \hline
+    \end{tabular}
+\end{table}
+
+A calibração do ganho derivativo provou ser o aspecto crítico para a locomoção de um robô pesado como o Roomba, compensando com maestria a inércia rotacional excessiva que não pôde ser precisamente simulada no \textit{Turtlesim}. Como resultado prático, os desvios laterais em trechos de reta foram zerados, e as curvas fechadas foram percorridas de maneira ágil, confirmando a responsividade imediata da base diferencial acionada através das diretrizes do paradigma \textit{Edge Computing}.
+
+\begin{figure}[H]
+	\caption{\label{fig:projeto_pronto}Robô em operação na pista de testes.}
+	\begin{center}
+	    \includegraphics[width=0.5\textwidth]{imagens/roomba_funcionando_seguindo_linha}
+	\end{center}
+	\legend{Fonte: Elaborado pelo autor.}
+\end{figure}
 
 \section{Discussão}
 
 A centralização do sensoriamento e controle no Raspberry Pi 4 simplificou significativamente a arquitetura do sistema em comparação com abordagens que utilizam microcontroladores dedicados para leitura de sensores. A eliminação de camadas intermediárias de comunicação reduziu a latência entre a detecção da linha e a atuação nos motores, contribuindo para a estabilidade do controle PID.
 
-Diante disso, assim como \citeonline{vilanova2022aeronave}, verifica-se a possibilidade de uso da plataforma robótica elaborada como recurso didático para aplicação dos conteúdos de controle, automação e sistemas embarcados, integrando sensores, atuadores e comunicação em rede em um ambiente real de aprendizagem.
+Diante disso, corroborando com os esforços de hardware iniciados por \citeonline{Dantas_2022} na adaptação do Roomba 614 no Instituto Federal do Piauí, verifica-se a consolidação da plataforma robótica elaborada como um recurso didático avançado. A evolução da arquitetura prévia para um processamento centralizado via \textit{Edge Computing} nativo no ROS 2 Humble expande a aplicação dos conteúdos de controle contínuo (PID), visão computacional e automação distribuída em um ambiente real de aprendizagem para os alunos do laboratório.

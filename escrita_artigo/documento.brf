@@ -6,14 +6,15 @@
 \backcite {macenski2022robot}{{5}{1}{chapter.1}}
 \backcite {vega2025bridging}{{5}{1}{chapter.1}}
 \backcite {kortelainen2023short}{{5}{1}{chapter.1}}
-\backcite {siegwart2011introduction}{{5}{2.1}{section.2.1}}
-\backcite {vega2025bridging}{{5}{2.1}{section.2.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1.1}{subsection.2.1.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1.1}{subsection.2.1.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1.1}{subsection.2.1.1}}
-\backcite {macenski2022robot, zhang2022distributed}{{6}{2.1.2}{subsection.2.1.2}}
-\backcite {macenski2022robot, zhang2022distributed}{{6}{2.1.2}{subsection.2.1.2}}
-\backcite {university2024labbook}{{8}{2.2.1}{subsection.2.2.1}}
-\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{8}{2.2.1}{subsection.2.2.1}}
-\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{8}{2.2.1}{subsection.2.2.1}}
-\backcite {amadi2024ros2control}{{11}{2.2.3.1}{figure.2.5}}
+\backcite {siegwart2011introduction}{{5}{2}{chapter.2}}
+\backcite {vega2025bridging}{{5}{2}{chapter.2}}
+\backcite {ferreira2023differential, baluja2024design, stark2026development}{{5}{2.1}{section.2.1}}
+\backcite {ferreira2023differential, baluja2024design, stark2026development}{{5}{2.1}{section.2.1}}
+\backcite {ferreira2023differential, baluja2024design, stark2026development}{{5}{2.1}{section.2.1}}
+\backcite {macenski2022robot, zhang2022distributed}{{6}{2.2}{section.2.2}}
+\backcite {macenski2022robot, zhang2022distributed}{{6}{2.2}{section.2.2}}
+\backcite {university2024labbook}{{8}{3.1}{section.3.1}}
+\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{9}{3.1}{section.3.1}}
+\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{9}{3.1}{section.3.1}}
+\backcite {amadi2024ros2control}{{11}{3.3.1}{figure.3.5}}
+\backcite {Dantas_2022}{{14}{4.4}{section.4.4}}
