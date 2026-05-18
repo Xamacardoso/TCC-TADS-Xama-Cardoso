@@ -35,6 +35,13 @@
 | `amadi2024ros2control` | ✅ OK                | DOI e URL ResearchGate presentes                               |
 | `Dantas_2022`          | ✅ OK                | URL repositório IFPI presente                                  |
 | `vilanova2022aeronave` | ✅ OK                | URL repositório IFPI presente                                  |
+| `astrom2006advanced`   | ✅ OK                | Livro clássico sobre controle PID avançado                     |
+| `ogata2010modern`      | ✅ OK                | Livro clássico de engenharia de controle moderno               |
+| `shi2016edge`          | ✅ OK                | Artigo clássico sobre visão e desafios do Edge Computing       |
+| `satyanarayanan2017emergence` | ✅ OK         | Artigo basilar sobre a emergência da computação de borda       |
+| `quigley2009ros`       | ✅ OK                | Paper original e fundacional sobre o ROS (2009)                |
+| `koubaa2017robot`      | ✅ OK                | Livro sobre projetos com ROS Robotics                          |
+| `albonico2023software` | ✅ OK                | Estudo recente (2023) sobre o estado da arte do software ROS   |
 
 ---
 
@@ -95,6 +102,27 @@ TCC — Instituto Federal do Piauí (IFPI), 2022.
 ---
 
 ### 3. ROS 2 e Middleware
+
+**[Quigley et al., 2009]** Quigley, Morgan et al.  
+*ROS: an open-source Robot Operating System.*  
+ICRA workshop on open source software, v. 3, n. 3.2, p. 5, 2009.  
+🔗 [https://robotics.stanford.edu/~ang/papers/icraoss09-ROS.pdf](https://robotics.stanford.edu/~ang/papers/icraoss09-ROS.pdf)
+
+---
+
+**[Koubaa et al., 2017]** Koubaa, Anis et al.  
+*Robot Operating System (ROS): The Complete Reference.*  
+Springer, v. 1, 2017.  
+🔗 [https://link.springer.com/book/10.1007/978-3-319-54927-9](https://link.springer.com/book/10.1007/978-3-319-54927-9)
+
+---
+
+**[Albonico et al., 2023]** Albonico, Michel; Đorđević, Milica; Hamer, Engel; Malavolta, Ivano.  
+*Software engineering research on the Robot Operating System: A systematic mapping study.*  
+Journal of Systems and Software, v. 197, 111574, Elsevier, 2023.  
+🔗 [https://doi.org/10.1016/j.jss.2022.111574](https://doi.org/10.1016/j.jss.2022.111574)
+
+---
 
 **[Macenski et al., 2022]** Macenski, Steven; Foote, Tully; Gerkey, Brian; Lalancette, Chris; Woodall, William.  
 *Robot Operating System 2: Design, Architecture, and Uses in the Wild.*  
@@ -165,6 +193,20 @@ IJFMR — International Journal for Multidisciplinary Research, v. 6, n. 6, 2024
 
 ---
 
+**[Åström \& Hägglund, 2006]** Åström, Karl J.; Hägglund, Tore.  
+*Advanced PID Control.*  
+ISA-The Instrumentation, Systems, and Automation Society, 2006. ISBN: 978-1-55617-942-6  
+🔗 [https://www.isa.org/products/advanced-pid-control](https://www.isa.org/products/advanced-pid-control)
+
+---
+
+**[Ogata, 2010]** Ogata, Katsuhiko.  
+*Modern Control Engineering.* 5. ed.  
+Prentice Hall, 2010. ISBN: 978-0-13-615673-4  
+🔗 [https://www.pearson.com/en-us/subject-catalog/p/modern-control-engineering/P200000002198/9780136156734](https://www.pearson.com/en-us/subject-catalog/p/modern-control-engineering/P200000002198/9780136156734)
+
+---
+
 ### 5. Robôs Móveis Autônomos
 
 **[Niloy et al., 2021]** Niloy, Md AK et al.  
@@ -213,6 +255,20 @@ Sensors, v. 23, n. 12, 2023.
 ---
 
 ### 8. Edge Computing e Plataformas Educacionais Abertas
+
+**[Shi et al., 2016]** Shi, Weisong et al.  
+*Edge computing: Vision and challenges.*  
+IEEE Internet of Things Journal, v. 3, n. 5, pp. 637-646, 2016.  
+🔗 [https://doi.org/10.1109/JIOT.2016.2579198](https://doi.org/10.1109/JIOT.2016.2579198)
+
+---
+
+**[Satyanarayanan, 2017]** Satyanarayanan, Mahadev.  
+*The emergence of edge computing.*  
+Computer, v. 50, n. 1, pp. 30-39, IEEE, 2017.  
+🔗 [https://doi.org/10.1109/MC.2017.9](https://doi.org/10.1109/MC.2017.9)
+
+---
 
 **[Vega & Pérez, 2025]** Vega, Julio; Pérez, Vidal.  
 *G-ARM: an open-source and low-cost robotic arm integrated with ROS2 for educational purposes.*  

@@ -8,13 +8,23 @@
 \backcite {kortelainen2023short}{{5}{1}{chapter.1}}
 \backcite {siegwart2011introduction}{{5}{2}{chapter.2}}
 \backcite {vega2025bridging}{{5}{2}{chapter.2}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{5}{2.1}{section.2.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{5}{2.1}{section.2.1}}
-\backcite {ferreira2023differential, baluja2024design, stark2026development}{{5}{2.1}{section.2.1}}
-\backcite {macenski2022robot, zhang2022distributed}{{6}{2.2}{section.2.2}}
-\backcite {macenski2022robot, zhang2022distributed}{{6}{2.2}{section.2.2}}
-\backcite {university2024labbook}{{8}{3.1}{section.3.1}}
-\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{9}{3.1}{section.3.1}}
-\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{9}{3.1}{section.3.1}}
-\backcite {amadi2024ros2control}{{11}{3.3.1}{figure.3.5}}
-\backcite {Dantas_2022}{{14}{4.4}{section.4.4}}
+\backcite {astrom2006advanced, ogata2010modern}{{5}{2.1}{section.2.1}}
+\backcite {astrom2006advanced, ogata2010modern}{{5}{2.1}{section.2.1}}
+\backcite {siegwart2011introduction}{{6}{2.1}{section.2.1}}
+\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1}{section.2.1}}
+\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1}{section.2.1}}
+\backcite {ferreira2023differential, baluja2024design, stark2026development}{{6}{2.1}{section.2.1}}
+\backcite {quigley2009ros}{{6}{2.2}{section.2.2}}
+\backcite {koubaa2017robot, albonico2023software}{{6}{2.2}{section.2.2}}
+\backcite {koubaa2017robot, albonico2023software}{{6}{2.2}{section.2.2}}
+\backcite {niloy2021critical}{{6}{2.2}{section.2.2}}
+\backcite {macenski2022robot}{{7}{2.2}{section.2.2}}
+\backcite {shi2016edge, satyanarayanan2017emergence}{{7}{2.2}{section.2.2}}
+\backcite {shi2016edge, satyanarayanan2017emergence}{{7}{2.2}{section.2.2}}
+\backcite {shi2016edge}{{7}{2.2}{section.2.2}}
+\backcite {zhang2022distributed}{{7}{2.2}{section.2.2}}
+\backcite {university2024labbook}{{9}{3.1}{section.3.1}}
+\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{10}{3.1}{section.3.1}}
+\backcite {kalaitzakis2021fiducial, stangl2023analytical}{{10}{3.1}{section.3.1}}
+\backcite {amadi2024ros2control}{{12}{3.2.1}{figure.3.5}}
+\backcite {Dantas_2022}{{15}{4.4}{section.4.4}}
