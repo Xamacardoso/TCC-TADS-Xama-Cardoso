@@ -2,11 +2,13 @@
 % Conclusão
 % ----------------------------------------------------------
 \chapter{Conclusão}
+\label{sec:conclusao}
 
 Este artigo demonstrou a viabilidade de uma plataforma robótica seguidora de linha autônoma, modular e de código aberto, adaptada a partir de um aspirador Roomba 614. A consolidação do Raspberry Pi 4 como único processador, executando ROS 2 Humble com \textit{Edge Computing}, eliminou componentes intermediários e favoreceu uma comunicação serial estável a 115200 bps. Isso permitiu o controle da malha PID com baixa latência, possibilitando seguimento preciso em que os desvios laterais foram reduzidos a níveis mínimos.
 
 Além da validação física do seguimento de linha, o trabalho também desenvolveu uma prova de conceito arquitetural baseada em marcadores ArUco integrada ao \textit{RViz2}. Essa etapa teve como finalidade validar a comunicação entre módulos de percepção visual e tomada de decisão em ambiente simulado. Dessa forma, o escopo físico da pesquisa concentrou-se deliberadamente na navegação baseada em sensores infravermelhos e controle PID embarcado, enquanto a integração física da câmera foi definida como etapa futura de expansão da plataforma.
 
-Para mais, como trabalhos futuros, destaca-se a integração física do módulo de visão computacional embarcada, ativando o nó de detecção ArUco para navegação por marcos visuais, potencialmente aumentando a precisão da localização. Também se planeja a aplicação em logística \textit{indoor}, onde o seguimento de linha favorece trajetórias seguras e previsíveis para o transporte de materiais, além do estudo de sistemas multi-robô via comunicação descentralizada DDS para evasão colaborativa de obstáculos.
 
-Dessa forma, conclui-se que a plataforma proposta apresenta elevado potencial didático e experimental, constituindo uma solução acessível, modular e escalável para aplicações em robótica móvel, sistemas embarcados e arquiteturas distribuídas baseadas em ROS 2.
+Para mais, como trabalhos futuros, destaca-se a integração física do módulo de visão computacional embarcada, ativando o nó de detecção ArUco para navegação por marcos visuais, potencialmente aumentando a precisão da localização. Também se planeja a aplicação em logística \textit{indoor}, onde o seguimento de linha favorece trajetórias seguras e previsíveis para o transporte de materiais, além do estudo de sistemas multi-robô via comunicação descentralizada DDS para evasão colaborativa de obstáculos. Adicionalmente, a incorporação de algoritmos de SLAM (\textit{Simultaneous Localization and Mapping}) e a fusão de dados dos sensores infravermelhos com odometria do Roomba podem viabilizar a navegação autônoma em ambientes sem marcação prévia de pista.
+
+Dessa forma, conclui-se que a plataforma proposta apresenta elevado potencial didático e experimental, constituindo uma solução acessível, modular e escalável para aplicações em robótica móvel, sistemas embarcados e arquiteturas distribuídas baseadas em ROS 2. Os resultados obtidos corroboram a viabilidade do reaproveitamento de hardware comercial de baixo custo como base mecânica para projetos de pesquisa e ensino em automação e controle.

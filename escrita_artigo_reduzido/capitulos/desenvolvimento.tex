@@ -43,7 +43,7 @@ Os ganhos foram sintonizados empiricamente em campo (Tabela \ref{tab:pid_tuning}
 
 \section{Arquitetura e Validação em Simulação}
 
-As Figuras \ref{fig:diagrama_sistema} e \ref{fig:fluxograma} apresentam, respectivamente, a arquitetura de nós e o ciclo completo de execução da solução.
+Com base na arquitetura descrita, as Figuras \ref{fig:diagrama_sistema} e \ref{fig:fluxograma} apresentam, respectivamente, o diagrama de blocos dos nós ROS 2 e o ciclo completo de execução da solução, evidenciando o fluxo de dados desde o sensoriamento até a atuação.
 
 \begin{figure}[H]
 \centering
@@ -64,6 +64,15 @@ As Figuras \ref{fig:diagrama_sistema} e \ref{fig:fluxograma} apresentam, respect
 \end{minipage}
 \end{figure}
 
-Antes da implantação física, a lógica foi validada no \textit{Turtlesim} (2D, ROS 2 nativo), o que permitiu verificar o roteamento de tópicos e o equacionamento PID sem a necessidade de renderização 3D \cite{university2024labbook, stark2026development}. Todavia, a ausência de modelagem de atrito e inércia nesse simulador exigiu \textit{fine-tuning} empírico posterior durante os testes em campo. Paralelamente, uma prova de conceito simulada para detecção de marcadores ArUco via OpenCV foi desenvolvida no \textit{RViz2} \cite{kalaitzakis2021fiducial, stangl2023analytical}.
+Antes da implantação física, a lógica de controle foi validada no \textit{Turtlesim} (2D, ROS 2 nativo), o que permitiu verificar o roteamento de tópicos e o equacionamento PID sem a necessidade de renderização 3D \cite{university2024labbook, stark2026development}. Todavia, a ausência de modelagem de atrito e inércia nesse simulador exigiu \textit{fine-tuning} empírico posterior durante os testes em campo. Paralelamente, como extensão do ambiente de validação, desenvolveu-se uma prova de conceito simulada para detecção de marcadores ArUco via OpenCV integrada ao \textit{RViz2} \cite{kalaitzakis2021fiducial, stangl2023analytical}.
 
-Cabe ressaltar que os marcadores ArUco foram empregados exclusivamente em ambiente de simulação como prova de conceito arquitetural, com o propósito de validar o fluxo de comunicação entre módulos de percepção visual, tomada de decisão e orquestração de estados no ecossistema ROS 2. Dessa forma, essa etapa não integrou o protótipo físico, sendo proposta como expansão futura da plataforma.
+Essa abordagem permitiu validar o fluxo de comunicação entre módulos de percepção visual, tomada de decisão e orquestração de estados no ecossistema ROS 2, sem a necessidade de implantação física imediata. A Figura~\ref{fig:simulacao_aruco} ilustra a sessão de simulação: à esquerda, o \textit{feed} da câmera com o marcador ArUco detectado e identificado (\texttt{id=1}) destacado em amarelo pelo OpenCV; à direita, o simulador \textit{Turtlesim} exibindo a trajetória do agente robótico na pista virtual definida para o experimento. Os logs no terminal confirmam a recepção correta dos eventos de missão pelo nó \textit{mission\_control}.
+
+\begin{figure}[H]
+    \centering
+    \caption{\label{fig:simulacao_aruco}Prova de conceito da detecção de marcadores ArUco integrada ao RViz2 e ao Turtlesim.}
+    \includegraphics[width=0.70\textwidth]{imagens/simulacao_aruco}
+    \legend{Fonte: Elaborado pelo autor.}
+\end{figure}
+
+Cabe ressaltar que os marcadores ArUco foram empregados exclusivamente em ambiente de simulação como prova de conceito arquitetural. Dessa forma, essa etapa não integrou o protótipo físico final, sendo proposta como principal expansão futura da plataforma, conforme discutido na Seção~\ref{sec:conclusao}.

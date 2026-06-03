@@ -1,7 +1,6 @@
 % ----------------------------------------------------------
 % Resultados e Discussões
 % ----------------------------------------------------------
-\clearpage
 \chapter{Resultados e Discussões}
 
 Os testes foram realizados em pista oval com fita preta (largura 20\,mm) sobre superfície branca, em ambiente interno com iluminação artificial controlada. Nessas condições, o protótipo operou de forma autônoma e contínua, sem intervenção humana após a inicialização, completando múltiplas voltas na pista. Todo o processamento ocorreu localmente no Raspberry Pi 4, com utilização média de CPU inferior a 15\%, o que demonstra que a abordagem de \textit{Edge Computing} adotada é computacionalmente viável mesmo em hardware de baixo custo \cite{rpi4, rpi_network_throughput}. Além disso, a comunicação serial permaneceu estável durante toda a sessão de testes, sem reinicializações nem erros de protocolo.
@@ -9,7 +8,7 @@ Os testes foram realizados em pista oval com fita preta (largura 20\,mm) sobre s
 \section{Montagem e Sintonia do Controlador PID}
 \label{sec:resultados_pid}
 
-O chassi superior foi impresso em 3D (Autodesk Fusion 360), fixando o RPi4 na parte superior e o módulo BFD-1000 na extremidade frontal inferior. Em seguida, a sintonia dos ganhos seguiu o método empírico clássico: (1)~$K_p$ elevado até oscilação constante; (2)~$K_d$ introduzido para amortecer a oscilação em curvas agudas; (3)~$K_i$ mantido nulo, uma vez que não houve acúmulo de erro sistemático. A Tabela~\ref{tab:pid_tuning} consolida os parâmetros finais obtidos a 0{,}15 m/s de cruzeiro.
+O chassi superior foi impresso em 3D (Autodesk Fusion 360), fixando o RPi4 na parte superior e o módulo BFD-1000 na extremidade frontal inferior. Em seguida, a sintonia dos ganhos seguiu o método empírico clássico: (1)~$K_p$ elevado até oscilação constante; (2)~$K_d$ introduzido para amortecer a oscilação em curvas agudas; (3)~$K_i$ mantido nulo, uma vez que não houve acúmulo de erro sistemático. A Tabela~\ref{tab:pid_tuning} consolida os parâmetros finais obtidos a 0{,}15 m/s em velocidade de cruzeiro.
 
 \begin{table}[H]
     \centering
@@ -29,7 +28,18 @@ Nesse sentido, o ganho derivativo revelou-se o parâmetro mais crítico: a inér
 
 \section{Operação em Tempo Real}
 
-Após a inicialização via \textit{launch file}, o nó \textit{line\_sensor\_node.py} publica as leituras binárias dos 5 sensores BFD-1000 no tópico \textit{/line\_sensor}. Em seguida, o nó \textit{pid\_controller\_node.py} subscreve esse tópico, calcula o erro por média ponderada, executa a Equação~\ref{eq:pid_discreto} e publica o comando resultante em \textit{/cmd\_vel}. Por sua vez, o \textit{motor\_driver.py} converte a mensagem \textit{geometry\_msgs/Twist} para os bytes do protocolo Open Interface do Roomba, enviando-os via serial. Todo o grafo de comunicação é monitorável em tempo real pelo \textit{rqt\_graph} e pelo \textit{RViz2}, permitindo inspeção de latência e fluxo de dados sem interrupção do sistema. A Figura~\ref{fig:projeto_pronto} mostra o robô em operação na pista.
+Após a inicialização via \textit{launch file}, o nó \textit{line\_sensor\_node.py} publica as leituras binárias dos 5 sensores BFD-1000 no tópico \textit{/line\_sensor}. Em seguida, o nó \textit{pid\_controller\_node.py} subscreve esse tópico, calcula o erro por média ponderada, executa a Equação~\ref{eq:pid_discreto} e publica o comando resultante em \textit{/cmd\_vel}. Por sua vez, o \textit{motor\_driver.py} converte a mensagem \textit{geometry\_msgs/Twist} para os bytes do protocolo Open Interface do Roomba, enviando-os via serial. Todo o grafo de comunicação é monitorado em tempo real pelo \textit{rqt\_graph} e pelo \textit{RViz2}, permitindo inspeção de latência e fluxo de dados sem interrupção do sistema.
+
+A Figura~\ref{fig:rqt_pipeline} apresenta o grafo de nós capturado pelo \textit{rqt\_graph} durante a operação em campo, evidenciando a cadeia de comunicação: \textit{/line\_sensor\_node} publica no tópico \textit{/line\_sensor}, que é consumido pelo \textit{/pid\_controller}; este, por sua vez, publica em \textit{/cmd\_vel\_pid}, alimentando o \textit{/mission\_control\_pi}, que emite o comando final em \textit{/cmd\_vel} para o \textit{/roomba\_motor\_driver}. Esse pipeline linear garante responsividade e isolamento de responsabilidades entre os módulos.
+
+\begin{figure}[H]
+    \centering
+    \caption{\label{fig:rqt_pipeline}Grafo de nós ROS 2 do \textit{rqt\_graph} durante a operação robô.}
+    \includegraphics[width=0.70\textwidth]{imagens/grafico_rqt_piline}
+    \legend{Fonte: Elaborado pelo autor.}
+\end{figure}
+
+A Figura~\ref{fig:projeto_pronto} mostra o robô em operação na pista, complementando a visão do sistema em funcionamento integrado.
 
 \begin{figure}[H]
     \centering
@@ -38,8 +48,8 @@ Após a inicialização via \textit{launch file}, o nó \textit{line\_sensor\_no
     \legend{Fonte: Elaborado pelo autor.}
 \end{figure}
 
-A centralização do processamento no Raspberry Pi 4 eliminou camadas intermediárias de comunicação, reduzindo a latência entre detecção e atuação e, assim, validando a arquitetura \textit{Edge Computing} como viável para controle robótico em tempo real. A perda de pacotes foi insignificante durante os testes, corroborando a estabilidade do \textit{middleware} DDS. 
+A centralização do processamento no Raspberry Pi 4 eliminou camadas intermediárias de comunicação, reduzindo a latência entre detecção e atuação e, assim, validando a arquitetura proposta como viável para controle robótico em tempo real. A perda de pacotes foi insignificante durante os testes, corroborando a estabilidade do \textit{middleware} DDS. Durante sessões prolongadas de operação contínua, não foram observadas degradações de desempenho nem acúmulo excessivo de uso de memória, indicando que os nós ROS 2 desenvolvidos não apresentam vazamentos de recursos.
 
-Ademais, durante os testes experimentais, observou-se que a separação da alimentação elétrica entre Raspberry Pi e motores, associada ao uso do adaptador USB-Serial TTL, contribuiu significativamente para a redução de interferências eletromagnéticas e instabilidades de comunicação, resultando em maior confiabilidade operacional da plataforma.
+Ademais, durante os testes experimentais, observou-se que a separação da alimentação elétrica entre Raspberry Pi e motores, ao lado do adaptador USB-Serial TTL, reduziu interferências eletromagnéticas e instabilidades de comunicação, garantindo maior confiabilidade operacional da plataforma. Essa decisão de projeto mostrou-se essencial, uma vez que, em testes preliminares com alimentação compartilhada, observaram-se reinicializações esporádicas do Raspberry Pi durante picos de corrente dos motores.
 
 Por fim, corroborando com \citeonline{Dantas_2022}, a plataforma consolida-se como recurso didático de alto valor para o ensino de robótica, controle clássico e automação distribuída no âmbito acadêmico.
