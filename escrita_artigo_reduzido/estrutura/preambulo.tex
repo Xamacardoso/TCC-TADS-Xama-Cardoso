@@ -58,14 +58,14 @@
 %% Espaçamentos
 \input{configuracoes/espacamentos}
 
-% Forçar negrito em todas as seções (Estilo ABNT)
+% Seções sem negrito, apenas em caixa alta (Estilo ABNT)
 \makeatletter
 \def\section{\@startsection{section}{1}{\z@}%
     {-3.5ex \@plus -1ex \@minus -.2ex}%
     {2.3ex \@plus.2ex}%
-    {\normalfont\normalsize\bfseries\uppercase}} % Aqui o \bfseries força o negrito
+    {\normalfont\normalsize\uppercase}}
 \makeatother
 
 % Comando específico para o abnTeX2/IFPI
-\renewcommand{\ABNTEXsectionfont}{\bfseries}
-\setsecheadstyle{\bfseries\uppercase}
+\renewcommand{\ABNTEXsectionfont}{\normalfont}
+\setsecheadstyle{\uppercase}

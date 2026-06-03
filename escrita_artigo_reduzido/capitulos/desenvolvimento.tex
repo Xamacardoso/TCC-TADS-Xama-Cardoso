@@ -3,18 +3,43 @@
 % ----------------------------------------------------------
 \chapter{Metodologia e Arquitetura do Sistema}
 
-A plataforma emprega acionamento diferencial com o iRobot Roomba® 614 como base mecânica, controlada por Raspberry Pi 4 Model B (Ubuntu 22.04) sem microcontroladores intermediários, caracterizando \textit{Edge Computing}: sensoriamento, PID e atuação em malha única local \cite{siegwart2011introduction, macenski2022robot, zhang2022distributed}. O Roomba é acionado via cabo USB-Serial TTL (\textit{/dev/ttyUSB0}, 115200 bps), com alimentação do RPi4 isolada em bateria externa 5V para eliminar ruído elétrico dos motores (12V).
+A plataforma emprega acionamento diferencial com o Roomba 614 como base mecânica, controlada por Raspberry Pi 4 (Ubuntu 22.04) sem microcontroladores intermediários, caracterizando \textit{Edge Computing}: sensoriamento, PID e atuação em malha única local \cite{siegwart2011introduction, macenski2022robot, zhang2022distributed}. A Figura~\ref{fig:componentes_hardware} apresenta a disposição física dos componentes estruturais de hardware montados sobre o chassi do robô.
+
+\begin{figure}[H]
+    \centering
+    \caption{\label{fig:componentes_hardware}Componentes de hardware montados sobre o chassi.}
+    \includegraphics[width=0.50\textwidth]{imagens/componentes_hardware}
+    \legend{Fonte: Elaborado pelo autor.}
+\end{figure}
+
+Nesse contexto estrutural, o Roomba é acionado via cabo USB-Serial TTL (\textit{/dev/ttyUSB0}, 115200 bps), enquanto a alimentação do RPi4 (Raspberry Pi 4) é isolada em bateria externa 5V (\textit{powerbank}), de modo a garantir estabilidade elétrica e eliminar ruído elétrico proveniente dos motores (12V). Para detalhar essa interconexão, a Figura~\ref{fig:diagrama_montagem} ilustra o diagrama de montagem da plataforma, evidenciando a topologia adotada para a integração.
+
+\begin{figure}[H]
+    \centering
+    \caption{\label{fig:diagrama_montagem}Diagrama de montagem do hardware.}
+    \includegraphics[width=0.60\textwidth]{imagens/diagrama_montagem_hardware}
+    \legend{Fonte: Elaborado pelo autor.}
+\end{figure}
+
+Conforme ilustrado, o Raspberry Pi 4 atua como unidade central de processamento, conectando-se ao Roomba 614 por meio de comunicação serial e ao módulo BFD-1000 através das portas GPIO. O BFD-1000 é um módulo de sensoriamento óptico composto por um arranjo (\textit{array}) de cinco pares de sensores infravermelhos reflexivos (emissor/receptor), cuja finalidade é detectar com precisão o contraste da linha a ser seguida em relação à superfície. Para otimizar a leitura antecipada do percurso, esse módulo foi montado na parte frontal inferior do chassi do Roomba, conforme pode ser visualizado na Figura~\ref{fig:modulo_bfd1000}.
+
+\begin{figure}[H]
+    \centering
+    \caption{\label{fig:modulo_bfd1000}Módulo BFD-1000 fixado na parte frontal do chassi do Roomba.}
+    \includegraphics[width=0.50\textwidth]{imagens/roomba_bfd1000}
+    \legend{Fonte: Elaborado pelo autor.}
+\end{figure}
 
 \section{Controle PID e Sensoriamento}
 
-O erro de trajetória é extraído das 5 leituras binárias do módulo BFD-1000 por média ponderada com pesos $(-2,-1,0,1,2)$. O controlador opera a \textbf{20 Hz} ($\Delta t = 0{,}05$ s) segundo a formulação discreta \cite{ferreira2023differential, baluja2024design}:
+O erro de trajetória é extraído das 5 leituras binárias do módulo BFD-1000 por média ponderada com pesos $(-2,-1,0,1,2)$. A partir dessas leituras, o controlador opera com $\Delta t = 0{,}05$ s segundo a formulação discreta \cite{ferreira2023differential, baluja2024design}:
 
 \begin{equation}
     u(k) = K_p\, e(k) + K_i \sum_{i=0}^{k} e(i)\,\Delta t + K_d\, \frac{e(k) - e(k-1)}{\Delta t}
     \label{eq:pid_discreto}
 \end{equation}
 
-Os ganhos foram sintonizados empiricamente em campo (Tabela \ref{tab:pid_tuning}, Seção \ref{sec:resultados_pid}). Todo o código é implementado em Python (\texttt{rclpy}) em três pacotes ROS 2 \cite{amadi2024ros2control}: \textbf{\textit{roomba\_pi\_drivers}} (leitura GPIO → tópico \textit{/line\_sensor} a 20\,Hz; tradução de \textit{Twist} para protocolo serial); \textbf{\textit{roomba\_logic}} (nó PID \textit{pid\_controller\_node.py} e orquestrador de estados \textit{mission\_control\_pi.py} → tópico \textit{/cmd\_vel}); e \textbf{\textit{roomba\_bringup}} (\textit{launch files} com carga dinâmica dos ganhos).
+Os ganhos foram sintonizados empiricamente em campo (Tabela \ref{tab:pid_tuning}, Seção \ref{sec:resultados_pid}). Em termos de implementação, todo o código é desenvolvido em Python (\texttt{rclpy}) e organizado em três pacotes ROS 2 \cite{amadi2024ros2control}: \textbf{\textit{roomba\_pi\_drivers}} (leitura GPIO para o tópico \textit{/line\_sensor}; tradução de \textit{Twist} para protocolo serial); \textbf{\textit{roomba\_logic}} (nó PID \textit{pid\_controller\_node.py} e orquestrador de estados \textit{mission\_control\_pi.py} para o tópico \textit{/cmd\_vel}); e \textbf{\textit{roomba\_bringup}} (\textit{launch files} com carga dinâmica dos ganhos).
 
 \section{Arquitetura e Validação em Simulação}
 
@@ -39,4 +64,6 @@ As Figuras \ref{fig:diagrama_sistema} e \ref{fig:fluxograma} apresentam, respect
 \end{minipage}
 \end{figure}
 
-Antes da implantação física, a lógica foi validada no \textit{Turtlesim} (2D, ROS 2 nativo), verificando roteamento de tópicos e equacionamento PID sem renderização 3D \cite{university2024labbook, stark2026development}; a ausência de modelagem de atrito e inércia exigiu \textit{fine-tuning} empírico posterior. Paralelamente, detecção de marcadores ArUco via OpenCV foi validada no \textit{RViz2} \cite{kalaitzakis2021fiducial, stangl2023analytical}, preparando a transição autônoma entre modos de navegação para integração física futura.
+Antes da implantação física, a lógica foi validada no \textit{Turtlesim} (2D, ROS 2 nativo), o que permitiu verificar o roteamento de tópicos e o equacionamento PID sem a necessidade de renderização 3D \cite{university2024labbook, stark2026development}. Todavia, a ausência de modelagem de atrito e inércia nesse simulador exigiu \textit{fine-tuning} empírico posterior durante os testes em campo. Paralelamente, uma prova de conceito simulada para detecção de marcadores ArUco via OpenCV foi desenvolvida no \textit{RViz2} \cite{kalaitzakis2021fiducial, stangl2023analytical}.
+
+Cabe ressaltar que os marcadores ArUco foram empregados exclusivamente em ambiente de simulação como prova de conceito arquitetural, com o propósito de validar o fluxo de comunicação entre módulos de percepção visual, tomada de decisão e orquestração de estados no ecossistema ROS 2. Dessa forma, essa etapa não integrou o protótipo físico, sendo proposta como expansão futura da plataforma.
