@@ -3,12 +3,12 @@
 % ----------------------------------------------------------
 \chapter{Resultados e Discussões}
 
-Os testes foram realizados em pista oval com fita preta (largura 20\,mm) sobre superfície branca, em ambiente interno com iluminação artificial controlada. Nessas condições, o protótipo operou de forma autônoma e contínua, sem intervenção humana após a inicialização, completando múltiplas voltas na pista. Todo o processamento ocorreu localmente no Raspberry Pi 4, com utilização média de CPU inferior a 15\%, o que demonstra que a abordagem de \textit{Edge Computing} adotada é computacionalmente viável mesmo em hardware de baixo custo \cite{rpi4, rpi_network_throughput}. Além disso, a comunicação serial permaneceu estável durante toda a sessão de testes, sem reinicializações nem erros de protocolo.
+Os testes foram realizados em pista quadrada com fita preta sobre superfície branca, em ambiente interno com iluminação artificial controlada. Nessas condições, o protótipo operou de forma autônoma e contínua, sem intervenção humana após a inicialização, completando múltiplas voltas na pista. Todo o processamento ocorreu localmente no Raspberry Pi 4, com utilização média de CPU inferior a 15\%, o que demonstra que a abordagem de \textit{Edge Computing} adotada é computacionalmente viável mesmo em hardware de baixo custo \cite{rpi4, rpi_network_throughput}. Além disso, a comunicação serial permaneceu estável durante toda a sessão de testes, sem reinicializações nem erros de protocolo.
 
 \section{Montagem e Sintonia do Controlador PID}
 \label{sec:resultados_pid}
 
-O chassi superior foi impresso em 3D (Autodesk Fusion 360), fixando o RPi4 na parte superior e o módulo BFD-1000 na extremidade frontal inferior. Em seguida, a sintonia dos ganhos seguiu o método empírico clássico: (1)~$K_p$ elevado até oscilação constante; (2)~$K_d$ introduzido para amortecer a oscilação em curvas agudas; (3)~$K_i$ mantido nulo, uma vez que não houve acúmulo de erro sistemático. A Tabela~\ref{tab:pid_tuning} consolida os parâmetros finais obtidos a 0{,}15 m/s em velocidade de cruzeiro.
+O chassi superior foi impresso em 3D, fixando o RPi4 na parte superior e o módulo BFD-1000 na extremidade frontal inferior. Em seguida, a sintonia dos ganhos seguiu o método empírico clássico: (1)~$K_p$ elevado até oscilação constante; (2)~$K_d$ introduzido para amortecer a oscilação em curvas agudas; (3)~$K_i$ mantido nulo, uma vez que não houve acúmulo de erro sistemático. A Tabela~\ref{tab:pid_tuning} consolida os parâmetros finais obtidos a 0{,}15 m/s em velocidade de cruzeiro.
 
 \begin{table}[H]
     \centering

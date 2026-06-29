@@ -24,11 +24,4 @@ abnt-repeated-author-omit = no  '____.']{abntex2cite}			% Citações "AUTOR, ano
 \renewcommand{\backref}{}
 
 %% Esse é o texto do "Citado nas páginas ..."
-\renewcommand*{\backrefalt}[4]{
-	\ifcase #1
-		Nenhuma citação no texto.
-	\or
-		Citado na página #2.
-	\else
-		Citado #1 vezes nas páginas #2.
-	\fi}
+\renewcommand*{\backrefalt}[4]{}
