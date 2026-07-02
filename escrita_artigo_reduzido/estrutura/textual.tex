@@ -1,7 +1,10 @@
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 %% Elementos Textuais (Capítulos)      %%
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
-\pagestyle{empty} % Remover cabeçalho com titulo dos capítulos
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
 
 %% Inclua aqui os capítulos que farão parte do Artigo
 \input{capitulos/introducao}

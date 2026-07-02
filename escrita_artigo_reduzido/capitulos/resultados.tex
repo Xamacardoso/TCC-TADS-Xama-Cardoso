@@ -22,6 +22,7 @@ O chassi superior foi impresso em 3D, fixando o RPi4 na parte superior e o módu
         $K_i$ & $0{,}0$ & Nulo: sem erro de regime permanente nas retas avaliadas. \\ \hline
         $K_d$ & $0{,}2$ & Amortecimento crítico: reduz \textit{overshoot} e oscilação lateral (\textit{wobbling}). \\ \hline
     \end{tabular}
+    \legend{Fonte: Elaborada pelo autor.}
 \end{table}
 
 Nesse sentido, o ganho derivativo revelou-se o parâmetro mais crítico: a inércia rotacional do Roomba — não modelada pelo \textit{Turtlesim} — exigiu $K_d = 0{,}2$ para estabilizar a resposta com elevada responsividade. Com a sintonia final, os desvios laterais em retas foram reduzidos a níveis mínimos e, consequentemente, as curvas fechadas foram percorridas com maior agilidade.
